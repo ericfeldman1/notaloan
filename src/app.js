@@ -6,6 +6,7 @@ const helmet = require('helmet')
 const { NODE_ENV } = require('./config')
 const careersRouter = require('./careers/careers-router')
 const loansRouter = require('./loans/loans-router')
+const usersRouter = require('./users/users-router')
 
 const app = express()
 
@@ -17,6 +18,7 @@ app.use(helmet())
 
 app.use('/api/careers', careersRouter)
 app.use('/api/loans', loansRouter)
+app.use('/api/users', usersRouter)
 
 app.get('/xss', (req, res) => {
   res.cookie('secretToken', '1234567890');
