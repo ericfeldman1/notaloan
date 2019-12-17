@@ -6,12 +6,14 @@ const LoansService = require('./loans-service')
 const loansRouter = express.Router()
 const jsonParser = express.json()
 
-const serializeLoan = comment => ({
-//   id: comment.id,
-//   text: xss(comment.text),
-//   date_commented: comment.date_commented,
-//   article_id: comment.article_id,
-//   user_id: comment.user_id
+const serializeLoan = loan => ({
+  id: loan.id,
+  title: xss(loan.title),
+  balance: xss(loan.balance),
+  interest_rate: xss(loan.interest_rate),
+  term: xss(loan.term),
+  date_created: loan.date_created,
+  user_id: loan.user_id
 })
 
 loansRouter
@@ -25,8 +27,8 @@ loansRouter
       .catch(next)
   })
   .post(jsonParser, (req, res, next) => {
-    // const { text, article_id, user_id, date_commented } = req.body
-    // const newComment = { text, article_id, user_id }
+    const { title, balance, interest_rate, term, date_created, user_id } = req.body
+    const newLoan = { title, balance, interest_rate, term, user_id }
 
     for (const [key, value] of Object.entries(newLoan))
       if (value == null)

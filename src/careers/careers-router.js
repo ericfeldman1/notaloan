@@ -6,12 +6,13 @@ const CareersService = require('./careers-service')
 const careersRouter = express.Router()
 const jsonParser = express.json()
 
-const serializeCareer = comment => ({
-//   id: comment.id,
-//   text: xss(comment.text),
-//   date_commented: comment.date_commented,
-//   article_id: comment.article_id,
-//   user_id: comment.user_id
+const serializeCareer = career => ({
+  id: career.id,
+  title: xss(career.text),
+  locality: xss(locality.text),
+  salary: xss(salary.text),
+  date_created: career.date_created,
+  user_id: career.user_id
 })
 
 careersRouter
@@ -25,8 +26,8 @@ careersRouter
       .catch(next)
   })
   .post(jsonParser, (req, res, next) => {
-    // const { text, article_id, user_id, date_commented } = req.body
-    // const newComment = { text, article_id, user_id }
+    const { title, locality, salary, date_created, user_id } = req.body
+    const newCareer = { title, locality, salary, user_id }
 
     for (const [key, value] of Object.entries(newCareer))
       if (value == null)
