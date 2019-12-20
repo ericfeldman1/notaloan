@@ -20,8 +20,8 @@ loansRouter
   .route('/')
   .get((req, res, next) => {
     const knexInstance = req.app.get('db')
-    CommentsService.getAllComments(knexInstance)
-      .then(comments => {
+    LoansService.getAllLoans(knexInstance)
+      .then(loans => {
         res.json(loans.map(serializeLoan))
       })
       .catch(next)
@@ -36,7 +36,7 @@ loansRouter
           error: { message: `Missing '${key}' in request body` }
         })
 
-    newLoan.date_commented = date_commented;
+    newLoan.date_created = date_created;
 
     LoansService.insertLoan(
       req.app.get('db'),
@@ -52,7 +52,7 @@ loansRouter
   })
 
 loansRouter
-  .route('/:comment_id')
+  .route('/:loan_id')
   .all((req, res, next) => {
     LoansService.getById(
       req.app.get('db'),
@@ -83,20 +83,20 @@ loansRouter
       .catch(next)
   })
   .patch(jsonParser, (req, res, next) => {
-    const { text, date_commented } = req.body
-    const loanToUpdate = { text, date_commented }
+    const { text, date_created } = req.body
+    const loanToUpdate = { text, date_created }
 
     const numberOfValues = Object.values(loanToUpdate).filter(Boolean).length
     if (numberOfValues === 0)
       return res.status(400).json({
         error: {
-        //   message: `Request body must contain either 'text' or 'date_commented'`
+        //   message: `Request body must contain either 'text' or 'date_created'`
         }
       })
 
     LoansService.updateLoan(
       req.app.get('db'),
-      req.params.comment_id,
+      req.params.loan_id,
       loanToUpdate
     )
       .then(numRowsAffected => {
