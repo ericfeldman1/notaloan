@@ -60,7 +60,7 @@ careersRouter
       .then(career => {
         if (!career) {
           return res.status(404).json({
-            error: { message: `Career does not exist` }
+            error: { message: `Career doesn't exist` }
           })
         }
         res.career = career
